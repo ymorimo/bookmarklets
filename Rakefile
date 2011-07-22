@@ -4,7 +4,9 @@ task "default" do
   Dir['*.js'].each do |filename|
     open(filename, "r") do |f|
       puts "---------- #{filename}"
-      puts "javascript:" + f.read.gsub(/ *\n */s, '').gsub(' ', '%20')
+      let = f.read.lines.reject { |line| %r{^\s*//} =~ line }.map { |line| line.strip }.join
+      let.gsub!(' ', '%20')
+      puts "javascript:#{let}"
     end
   end
 end
